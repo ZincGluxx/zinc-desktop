@@ -1,11 +1,11 @@
-# Use Arch to test build outside of Ubuntu/Pop.
+# Use Arch Linux to validate the Zinc integration tree.
 #
 # Tests with recent version of dependencies. Another testson a different
 # distro could be used to test for lowest supported.
 #
 # A minimal image should also help to confirm what dependencies are needed.
 
-name: CI
+name: Zinc CI
 
 on:
   pull_request:
@@ -28,6 +28,7 @@ jobs:
         clang
         desktop-file-utils
         git
+        git-lfs
         gtk3
         gtk4
         just
@@ -51,6 +52,7 @@ jobs:
     - uses: actions/checkout@v6
       with:
         submodules: recursive
+        lfs: true
     # Safe directory behavior seems to have issues with `container:`
     # https://github.com/actions/checkout/issues/915
     - run: git config --global --add safe.directory '*'
