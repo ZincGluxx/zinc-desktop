@@ -75,6 +75,16 @@ migration and desktop-identity rebranding are tracked as follow-up work on this 
 - [zinc-sound-theme](https://github.com/ZincGluxx/zinc-sound-theme)
 - [zinc-wallpapers](https://github.com/ZincGluxx/zinc-wallpapers)
 
+### Build support forks
+
+- [zinc-mime-apps](https://github.com/ZincGluxx/zinc-mime-apps)
+- [zinc-syntax-theme](https://github.com/ZincGluxx/zinc-syntax-theme)
+- [zinc-settings-subscriptions](https://github.com/ZincGluxx/zinc-settings-subscriptions)
+- [zinc-dbus-settings-bindings](https://github.com/ZincGluxx/zinc-dbus-settings-bindings)
+- [zinc-freedesktop-icons](https://github.com/ZincGluxx/zinc-freedesktop-icons)
+- [zinc-launch-pad](https://github.com/ZincGluxx/zinc-launch-pad)
+- [zinc-xdg-shell-wrapper](https://github.com/ZincGluxx/zinc-xdg-shell-wrapper)
+
 ## Build
 
 The project is intended to build as a multi-repository desktop tree. Until packaging

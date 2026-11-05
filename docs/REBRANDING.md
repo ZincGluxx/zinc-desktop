@@ -15,8 +15,8 @@
 
 ## Completed
 
-- All 31 desktop-tree repositories plus the five core libraries are forked under
-  `ZincGluxx`.
+- All 31 desktop-tree repositories, five core libraries, and seven build-support
+  repositories are forked under `ZincGluxx` (43 repositories total).
 - GitHub repositories were renamed to the `zinc-*` naming scheme.
 - Every repository has a `zinc/main` development branch and the default branch now
   points at `zinc/main`.
@@ -27,6 +27,9 @@
   corresponding upstream repositories for reference and future synchronization.
 - Root README, repository map, issue templates, CI checkout settings, and release
   tag helper are rebranded.
+- User-facing strings, translations, desktop-entry display names, AppStream text,
+  and theme display names are rebranded across the 30 components and five core
+  libraries. Each repository now includes an upstream NOTICE.
 - Upstream copyright and license attribution is preserved in `NOTICE.md`.
 
 ## Source-level migration phases
@@ -39,8 +42,8 @@ feature branches and validated per component:
    systemd units, and session component launch names.
 2. Application and D-Bus namespace: `com.zincgluxx.*` app IDs, bus names, portal
    implementation names, config directories, and migration of existing user config.
-3. Runtime variables and theme keys: `ZINC_*` environment variables, `Zinc Dark` /
-   `Zinc Light` theme names, asset paths, and locale strings.
+3. Runtime variables and internal theme keys: `ZINC_*` environment variables,
+   internal `Zinc Dark` / `Zinc Light` keys, asset paths, and filename migrations.
 4. Crate and package namespace: `zinc-*` Cargo packages, shared library imports,
    dependency URLs, lockfile regeneration, and upstream support-library patches.
 5. Branding assets: new logo, icon theme, boot/session artwork, sound theme, and

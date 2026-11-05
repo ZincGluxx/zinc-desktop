@@ -45,3 +45,17 @@ upstream repository and the Zinc fork remain available for source comparison.
 All Zinc repositories use the default development branch `zinc/main`.
 Component forks are pinned to the upstream component commit recorded by the
 `zinc/main` branch of `zinc-desktop`; the root repository tracks integration changes.
+
+## Build support forks
+
+| Upstream | Zinc |
+|---|---|
+| `pop-os/cosmic-mime-apps` | [`ZincGluxx/zinc-mime-apps`](https://github.com/ZincGluxx/zinc-mime-apps) |
+| `pop-os/cosmic-syntax-theme` | [`ZincGluxx/zinc-syntax-theme`](https://github.com/ZincGluxx/zinc-syntax-theme) |
+| `pop-os/cosmic-settings-subscriptions` | [`ZincGluxx/zinc-settings-subscriptions`](https://github.com/ZincGluxx/zinc-settings-subscriptions) |
+| `pop-os/dbus-settings-bindings` | [`ZincGluxx/zinc-dbus-settings-bindings`](https://github.com/ZincGluxx/zinc-dbus-settings-bindings) |
+| `pop-os/freedesktop-icons` | [`ZincGluxx/zinc-freedesktop-icons`](https://github.com/ZincGluxx/zinc-freedesktop-icons) |
+| `pop-os/launch-pad` | [`ZincGluxx/zinc-launch-pad`](https://github.com/ZincGluxx/zinc-launch-pad) |
+| `pop-os/xdg-shell-wrapper` | [`ZincGluxx/zinc-xdg-shell-wrapper`](https://github.com/ZincGluxx/zinc-xdg-shell-wrapper) |
+
+All support forks also use `zinc/main` as their default development branch.
