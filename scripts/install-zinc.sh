@@ -114,7 +114,13 @@ WORK="$(mktemp -d "${TMPDIR:-/tmp}/zinc-install.$STAMP.XXXXXX")"
 STAGE="$WORK/stage"
 BACKUP="$HOME/zinc-install-backups/$STAMP"
 mkdir -p "$STAGE" "$BACKUP" "$WORK/logs"
-cleanup() { rm -rf "$WORK"; }
+cleanup() {
+    if [[ -d "$WORK/logs" ]]; then
+        mkdir -p "$BACKUP"
+        cp -a "$WORK/logs" "$BACKUP/logs" 2>/dev/null || true
+    fi
+    rm -rf "$WORK"
+}
 trap cleanup EXIT
 
 if ((!SKIP_LFS)) && command -v git-lfs >/dev/null 2>&1; then
