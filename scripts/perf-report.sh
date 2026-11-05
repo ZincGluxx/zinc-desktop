@@ -36,8 +36,9 @@ def proc_snapshot():
             fds = len(glob.glob(path + '/fd/*'))
             stat = Path(path, 'stat').read_text().split()
             ticks = int(stat[13]) + int(stat[14])
-            cmdline = Path(path, 'cmdline').read_bytes().replace(b'\0', b' ').decode(errors='ignore')
-            if matcher.search(comm) or matcher.search(cmdline):
+            cmdline = Path(path, 'cmdline').read_bytes().split(b'\0', 1)[0].decode(errors='ignore')
+            executable = Path(cmdline).name
+            if matcher.search(comm) or matcher.search(executable):
                 procs.append({
                     'pid': pid, 'ppid': ppid, 'comm': comm, 'rss': rss,
                     'pss': pss, 'threads': threads, 'fds': fds, 'ticks': ticks,
