@@ -64,11 +64,11 @@ if ! command -v sudo >/dev/null 2>&1; then
 fi
 
 missing=()
-for cmd in git cargo rustc just sudo; do
+for cmd in git cargo rustc just sudo rsync; do
     command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
 done
 if [[ "$MODE" == "full" ]]; then
-    for cmd in meson ninja; do
+    for cmd in meson ninja git-lfs; do
         command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
     done
 fi
@@ -183,7 +183,7 @@ if ((!ASSUME_YES)); then
 fi
 
 echo "Installing staged files..."
-sudo rsync -a "$STAGE/" /
+sudo rsync -a --chown=root:root "$STAGE/" /
 sudo install -Dm0644 "$WORK/manifest.txt" "$PREFIX/share/zinc/install-manifest.txt"
 
 cat > "$BACKUP/rollback.sh" <<ROLLBACK
