@@ -67,3 +67,26 @@
   measurements before changing render scheduling or caches.
 - Live A/B memory and startup measurements require building and launching the
   new session in a nested or test login session.
+
+## Profiling the compositor
+
+`zinc-comp` already uses damage tracking, vblank-coalesced rendering, and one
+surface thread per output. Do not rewrite that path without a controlled
+measurement.
+
+Collect a baseline in the running session:
+
+```sh
+scripts/perf-report.sh 10
+```
+
+Then compare a Tracy build under the same workload:
+
+```sh
+cd zinc-comp
+cargo build --features profile-with-tracy --profile fastdebug
+```
+
+Record one-output vs two-output, 60 Hz vs high refresh, and blurred vs opaque
+panel/window workloads. Focus on `surface-*` threads; only change scene
+assembly or blur paths where the trace demonstrates a dominant cost.
