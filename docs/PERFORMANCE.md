@@ -31,6 +31,14 @@
 - The shape-run cache is trimmed only when rows actually changed.
 - Added focused tests for the BufferLine update helper.
 
+### zinc-panel
+
+- Panel applet desktop-entry metadata is cached once per panel process instead
+  of being re-read and re-parsed for every PanelSpace/output.
+- This reduces startup CPU while preserving the existing panel and applet
+  process model. Consolidating the duplicated applet processes themselves is
+  still the next architectural step.
+
 ### zinc-bg
 
 - The full-resolution decoded wallpaper is released after output-sized buffers
@@ -45,6 +53,7 @@
   pass.
 - `zinc-term`: `cargo check --all-targets` passes; 15 tests pass.
 - `zinc-bg`: `cargo check --all-targets` passes.
+- `zinc-panel`: `cargo check --all-targets` passes.
 - `zinc-bg` and session commit checks use the project Rust 1.93 toolchain;
   build artifacts share `/home/zincg/.cache/zinc-target`.
 
