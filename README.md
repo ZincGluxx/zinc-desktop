@@ -7,6 +7,11 @@ actively rebranded, optimized, and extended into a personal desktop environment.
 Zinc Desktop is not affiliated with or endorsed by any upstream vendor. See
 [NOTICE.md](NOTICE.md) for upstream attribution and licensing.
 
+## Project map and rebranding
+
+- [Repository map](docs/REPOSITORIES.md)
+- [Rebranding status and migration plan](docs/REBRANDING.md)
+
 ## Development branch
 
 The active development branch is:
