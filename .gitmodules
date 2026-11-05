@@ -1,124 +1,149 @@
-[submodule "cosmic-session"]
-    path = cosmic-session
-    url = https://github.com/pop-os/cosmic-session
-    branch = master
-[submodule "cosmic-comp"]
-    path = cosmic-comp
-    url = https://github.com/pop-os/cosmic-comp
-    branch = master
-[submodule "cosmic-panel"]
-    path = cosmic-panel
-    url = https://github.com/pop-os/cosmic-panel
-    branch = master
-[submodule "cosmic-applets"]
-    path = cosmic-applets
-    url = https://github.com/pop-os/cosmic-applets
-    branch = master
-[submodule "cosmic-applibrary"]
-	path = cosmic-app-library
-    url = https://github.com/pop-os/cosmic-applibrary
-    branch = master
-[submodule "cosmic-launcher"]
-    path = cosmic-launcher
-    url = https://github.com/pop-os/cosmic-launcher
-    branch = master
-[submodule "simple-wrapper"]
-    path = simple-wrapper
-    url = https://github.com/pop-os/simple-wrapper
-    branch = master
-[submodule "cosmic-settings"]
-    path = cosmic-settings
-    url = https://github.com/pop-os/cosmic-settings
-    branch = master
-[submodule "cosmic-settings-daemon"]
-    path = cosmic-settings-daemon
-    url = https://github.com/pop-os/cosmic-settings-daemon
-    branch = master
-[submodule "xdg-desktop-portal-cosmic"]
-    path = xdg-desktop-portal-cosmic
-    url = https://github.com/pop-os/xdg-desktop-portal-cosmic.git
-    branch = master
-[submodule "cosmic-osd"]
-    path = cosmic-osd
-    url = https://github.com/pop-os/cosmic-osd.git
-    branch = master
-[submodule "cosmic-bg"]
-    path = cosmic-bg
-    url = https://github.com/pop-os/cosmic-bg.git
-    branch = master
-[submodule "cosmic-workspaces-epoch"]
-    path = cosmic-workspaces-epoch
-    url = https://github.com/pop-os/cosmic-workspaces-epoch/
-    branch = master
-[submodule "cosmic-notifications"]
-    path = cosmic-notifications
-    url = https://github.com/pop-os/cosmic-notifications
-    branch = master
-[submodule "cosmic-icons"]
-    path = cosmic-icons
-    url = https://github.com/pop-os/cosmic-icons.git
-    branch = master
-[submodule "cosmic-greeter"]
-    path = cosmic-greeter
-    url = https://github.com/pop-os/cosmic-greeter
-    branch = master
-[submodule "cosmic-screenshot"]
-    path = cosmic-screenshot
-    url = https://github.com/pop-os/cosmic-screenshot
-    branch = master
-[submodule "cosmic-edit"]
-    path = cosmic-edit
-    url = https://github.com/pop-os/cosmic-edit
-    branch = master
-[submodule "cosmic-term"]
-    path = cosmic-term
-    url = https://github.com/pop-os/cosmic-term.git
-    branch = master
-[submodule "cosmic-randr"]
-    path = cosmic-randr
-    url = https://github.com/pop-os/cosmic-randr.git
-    branch = master
-[submodule "cosmic-files"]
-    path = cosmic-files
-    url = https://github.com/pop-os/cosmic-files.git
-    branch = master
-[submodule "cosmic-store"]
-    path = cosmic-store
-    url = https://github.com/pop-os/cosmic-store.git
-    branch = master
-[submodule "cosmic-wallpapers"]
-	path = cosmic-wallpapers
-	url = https://github.com/pop-os/cosmic-wallpapers.git
-	branch = master
-[submodule "cosmic-idle"]
-	path = cosmic-idle
-	url = https://github.com/pop-os/cosmic-idle.git
-	branch = master
-[submodule "cosmic-player"]
-	path = cosmic-player
-	url = https://github.com/pop-os/cosmic-player.git
-	branch = master
-[submodule "cosmic-initial-setup"]
-	path = cosmic-initial-setup
-	url = https://github.com/pop-os/cosmic-initial-setup
-	branch = master
-[submodule "pop-launcher"]
-	path = pop-launcher
-	url = https://github.com/pop-os/launcher.git
-	branch = master
-[submodule "cosmic-monitor"]
-	path = cosmic-monitor
-	url = https://github.com/pop-os/cosmic-monitor.git
-	branch = master
-[submodule "cosmic-sound-theme"]
-	path = cosmic-sound-theme
-	url = https://github.com/pop-os/cosmic-sound-theme.git
-	branch = master
-[submodule "cosmic-osk"]
-	path = cosmic-osk
-	url = https://github.com/pop-os/cosmic-osk
-	branch = master
-[submodule "cosmic-viewer"]
-	path = cosmic-viewer
-	url = https://github.com/pop-os/cosmic-viewer.git
-	branch = master
+[submodule "zinc-app-library"]
+    path = zinc-app-library
+    url = https://github.com/ZincGluxx/zinc-app-library.git
+    branch = zinc/main
+
+[submodule "zinc-applets"]
+    path = zinc-applets
+    url = https://github.com/ZincGluxx/zinc-applets.git
+    branch = zinc/main
+
+[submodule "zinc-bg"]
+    path = zinc-bg
+    url = https://github.com/ZincGluxx/zinc-bg.git
+    branch = zinc/main
+
+[submodule "zinc-comp"]
+    path = zinc-comp
+    url = https://github.com/ZincGluxx/zinc-comp.git
+    branch = zinc/main
+
+[submodule "zinc-edit"]
+    path = zinc-edit
+    url = https://github.com/ZincGluxx/zinc-edit.git
+    branch = zinc/main
+
+[submodule "zinc-files"]
+    path = zinc-files
+    url = https://github.com/ZincGluxx/zinc-files.git
+    branch = zinc/main
+
+[submodule "zinc-greeter"]
+    path = zinc-greeter
+    url = https://github.com/ZincGluxx/zinc-greeter.git
+    branch = zinc/main
+
+[submodule "zinc-icons"]
+    path = zinc-icons
+    url = https://github.com/ZincGluxx/zinc-icons.git
+    branch = zinc/main
+
+[submodule "zinc-idle"]
+    path = zinc-idle
+    url = https://github.com/ZincGluxx/zinc-idle.git
+    branch = zinc/main
+
+[submodule "zinc-initial-setup"]
+    path = zinc-initial-setup
+    url = https://github.com/ZincGluxx/zinc-initial-setup.git
+    branch = zinc/main
+
+[submodule "zinc-launcher"]
+    path = zinc-launcher
+    url = https://github.com/ZincGluxx/zinc-launcher.git
+    branch = zinc/main
+
+[submodule "zinc-monitor"]
+    path = zinc-monitor
+    url = https://github.com/ZincGluxx/zinc-monitor.git
+    branch = zinc/main
+
+[submodule "zinc-notifications"]
+    path = zinc-notifications
+    url = https://github.com/ZincGluxx/zinc-notifications.git
+    branch = zinc/main
+
+[submodule "zinc-osd"]
+    path = zinc-osd
+    url = https://github.com/ZincGluxx/zinc-osd.git
+    branch = zinc/main
+
+[submodule "zinc-osk"]
+    path = zinc-osk
+    url = https://github.com/ZincGluxx/zinc-osk.git
+    branch = zinc/main
+
+[submodule "zinc-panel"]
+    path = zinc-panel
+    url = https://github.com/ZincGluxx/zinc-panel.git
+    branch = zinc/main
+
+[submodule "zinc-player"]
+    path = zinc-player
+    url = https://github.com/ZincGluxx/zinc-player.git
+    branch = zinc/main
+
+[submodule "zinc-randr"]
+    path = zinc-randr
+    url = https://github.com/ZincGluxx/zinc-randr.git
+    branch = zinc/main
+
+[submodule "zinc-screenshot"]
+    path = zinc-screenshot
+    url = https://github.com/ZincGluxx/zinc-screenshot.git
+    branch = zinc/main
+
+[submodule "zinc-session"]
+    path = zinc-session
+    url = https://github.com/ZincGluxx/zinc-session.git
+    branch = zinc/main
+
+[submodule "zinc-settings"]
+    path = zinc-settings
+    url = https://github.com/ZincGluxx/zinc-settings.git
+    branch = zinc/main
+
+[submodule "zinc-settings-daemon"]
+    path = zinc-settings-daemon
+    url = https://github.com/ZincGluxx/zinc-settings-daemon.git
+    branch = zinc/main
+
+[submodule "zinc-sound-theme"]
+    path = zinc-sound-theme
+    url = https://github.com/ZincGluxx/zinc-sound-theme.git
+    branch = zinc/main
+
+[submodule "zinc-store"]
+    path = zinc-store
+    url = https://github.com/ZincGluxx/zinc-store.git
+    branch = zinc/main
+
+[submodule "zinc-term"]
+    path = zinc-term
+    url = https://github.com/ZincGluxx/zinc-term.git
+    branch = zinc/main
+
+[submodule "zinc-viewer"]
+    path = zinc-viewer
+    url = https://github.com/ZincGluxx/zinc-viewer.git
+    branch = zinc/main
+
+[submodule "zinc-wallpapers"]
+    path = zinc-wallpapers
+    url = https://github.com/ZincGluxx/zinc-wallpapers.git
+    branch = zinc/main
+
+[submodule "zinc-workspaces"]
+    path = zinc-workspaces
+    url = https://github.com/ZincGluxx/zinc-workspaces.git
+    branch = zinc/main
+
+[submodule "zinc-pop-launcher"]
+    path = zinc-pop-launcher
+    url = https://github.com/ZincGluxx/zinc-pop-launcher.git
+    branch = zinc/main
+
+[submodule "xdg-desktop-portal-zinc"]
+    path = xdg-desktop-portal-zinc
+    url = https://github.com/ZincGluxx/xdg-desktop-portal-zinc.git
+    branch = zinc/main

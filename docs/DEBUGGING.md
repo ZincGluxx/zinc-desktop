@@ -1,10 +1,10 @@
-Debugging COSMIC
-================
+Debugging Zinc
+==============
 
-An assortment of useful tools and settings for debugging COSMIC.
+An assortment of useful tools and settings for debugging Zinc.
 
 ## Logs
-Cosmic-comp, cosmic-panel, and other components log to `stderr`, as well as journald (if present).
+zinc-comp, zinc-panel, and other components log to `stderr`, as well as journald (if present).
 
 ## Wayland and X11 Protocols
 
@@ -18,7 +18,7 @@ A tool like `xprop` can be used to determine if an application is running in XWa
 
 `sudo perf top` can be used to see what functions, across all processes, are using the most CPU time. The `-p` argument can be used to restrict this to a single process. The output is more useful for executables with debug symbols.
 
-`cosmic-comp` integrates Tracy for profiling. It can be built with `cargo build --features profile-with-tracy --profile fastdebug`, then the Tracy client can connect from the same system or a different one
+`zinc-comp` integrates Tracy for profiling. It can be built with `cargo build --features profile-with-tracy --profile fastdebug`, then the Tracy client can connect from the same system or a different one
 
 ## Graphics drivers
 `eglinfo` and `vulkaninfo` indicate what graphics cards and drivers are in use for hardware-accelerated rendering.
@@ -38,4 +38,4 @@ If the desktop is frozen and `ctrl+alt+f*` don't work to change to a TTY, [the m
 
 It is also possible to connect over `ssh` from another computer.
 
-Then `pidof cosmic-comp` can be used to get the PID of the compositor. Then it is possible to investigate further with tools like `gdb`, using `sudo gdb` and then `attach <pid>`.
+Then `pidof zinc-comp` can be used to get the PID of the compositor. Then it is possible to investigate further with tools like `gdb`, using `sudo gdb` and then `attach <pid>`.
