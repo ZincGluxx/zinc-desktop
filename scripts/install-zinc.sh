@@ -10,6 +10,7 @@ INSTALL_DEPS=0
 ASSUME_YES=0
 RESTART_GREETER=0
 SKIP_LFS=0
+CHECK_ONLY=0
 
 usage() {
     cat <<USAGE
@@ -25,6 +26,7 @@ Options:
                      zinc-session, zinc-term, zinc-files, zinc-bg, zinc-panel
   --install-deps     Install build dependencies with pacman first
   --skip-lfs         Do not attempt to fetch Git LFS wallpaper/icon assets
+  --check            Check tools, source state and assets; do not build or install
   --restart-greeter  Restart greetd after installation (kills the graphical session)
   --yes              Skip the final confirmation prompt
   -h, --help         Show this help
@@ -44,6 +46,7 @@ while (($#)); do
         --quick) MODE="quick" ;;
         --install-deps) INSTALL_DEPS=1 ;;
         --skip-lfs) SKIP_LFS=1 ;;
+        --check) CHECK_ONLY=1 ;;
         --restart-greeter) RESTART_GREETER=1 ;;
         --yes) ASSUME_YES=1 ;;
         -h|--help) usage; exit 0 ;;
@@ -52,8 +55,12 @@ while (($#)); do
     shift
 done
 
+EARLY_LOG="${ZINC_INSTALL_LOG:-$HOME/zinc-install-last.log}"
+exec > >(tee "$EARLY_LOG") 2>&1
+trap 'rc=$?; if [[ $rc -ne 0 ]]; then echo "ERROR: installer failed at line ${LINENO} (exit $rc)" >&2; fi' ERR
+
 if [[ ${EUID} -eq 0 ]]; then
-    echo "Run this as the desktop user, not as root. The script calls sudo where needed." >&2
+    echo "Do not run this script with sudo/root. Run it as the desktop user; it uses sudo internally." >&2
     exit 1
 fi
 
@@ -64,13 +71,30 @@ if ! command -v sudo >/dev/null 2>&1; then
 fi
 
 missing=()
-for cmd in git cargo rustc just sudo rsync; do
+for cmd in git cargo rustc just sudo rsync make gcc pkg-config; do
     command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
 done
-if [[ "$MODE" == "full" ]]; then
-    for cmd in meson ninja git-lfs; do
-        command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
-    done
+optional_missing=()
+for cmd in meson ninja git-lfs; do
+    command -v "$cmd" >/dev/null 2>&1 || optional_missing+=("$cmd")
+done
+
+if ((CHECK_ONLY)); then
+    echo "Zinc installer check"
+    echo "root=$ROOT"
+    echo "prefix=$PREFIX"
+    echo "mode=$MODE"
+    echo "branch=$(git -C "$ROOT" branch --show-current)"
+    echo "required_missing=${missing[*]:-none}"
+    echo "optional_missing=${optional_missing[*]:-none}"
+    echo "cargo=$(command -v cargo || true)"
+    echo "just=$(command -v just || true)"
+    echo "root_dirty=$(git -C "$ROOT" status --porcelain | wc -l) file(s)"
+    echo "submodule_dirty=$(git -C "$ROOT" submodule foreach --quiet 'test -z "$(git status --porcelain)" || echo dirty' | wc -l) submodule(s)"
+    echo "wallpaper_pointer_files=$(find "$ROOT/zinc-wallpapers/original" -type f -name '*.jpg' -size -1k 2>/dev/null | wc -l)"
+    echo "log=$EARLY_LOG"
+    [[ ${#missing[@]} -eq 0 ]] || exit 1
+    exit 0
 fi
 
 PKGS=(
@@ -83,13 +107,17 @@ if ((${#missing[@]})); then
     echo "Missing required commands: ${missing[*]}"
     if ((INSTALL_DEPS)); then
         echo "Installing build dependencies with pacman..."
-        sudo pacman -S --needed --noconfirm "${PKGS[@]}"
+        if ! sudo pacman -S --needed --noconfirm "${PKGS[@]}"; then
+            echo "warning: pacman dependency installation failed; continuing with existing tools" >&2
+        fi
     else
         echo "Install dependencies and retry, or run with --install-deps." >&2
         exit 1
     fi
 elif ((INSTALL_DEPS)); then
-    sudo pacman -S --needed --noconfirm "${PKGS[@]}"
+    if ! sudo pacman -S --needed --noconfirm "${PKGS[@]}"; then
+        echo "warning: pacman dependency installation failed; continuing with existing tools" >&2
+    fi
 fi
 
 if [[ "$(git -C "$ROOT" branch --show-current)" != "zinc/main" ]]; then
@@ -143,11 +171,15 @@ if [[ "$MODE" == "full" ]]; then
     echo "Staging full install under $STAGE$PREFIX"
     (cd "$ROOT" && just install rootdir="$STAGE" prefix="$PREFIX") 2>&1 | tee "$WORK/logs/install-stage.log"
 
-    echo "Building and staging sound theme..."
-    meson setup "$WORK/sound-build" "$ROOT/zinc-sound-theme" \
-        --prefix="$PREFIX" --buildtype=release >/dev/null
-    meson compile -C "$WORK/sound-build" 2>&1 | tee "$WORK/logs/sound-build.log"
-    DESTDIR="$STAGE" meson install -C "$WORK/sound-build" 2>&1 | tee "$WORK/logs/sound-install.log"
+    if command -v meson >/dev/null 2>&1 && command -v ninja >/dev/null 2>&1; then
+        echo "Building and staging sound theme..."
+        meson setup "$WORK/sound-build" "$ROOT/zinc-sound-theme" \
+            --prefix="$PREFIX" --buildtype=release >/dev/null
+        meson compile -C "$WORK/sound-build" 2>&1 | tee "$WORK/logs/sound-build.log"
+        DESTDIR="$STAGE" meson install -C "$WORK/sound-build" 2>&1 | tee "$WORK/logs/sound-install.log"
+    else
+        echo "warning: meson/ninja missing; skipping sound theme" >&2
+    fi
 else
     for component in zinc-session zinc-term zinc-files zinc-bg zinc-panel; do
         echo "Building $component"
