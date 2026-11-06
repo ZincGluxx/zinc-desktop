@@ -22,6 +22,7 @@ Do NOT run it from inside the graphical session you are replacing.
 
 Options:
   --full             Build all components (default)
+  --install-only     Skip building; install the existing release artifacts
   --quick            Build only the components changed in the first pass:
                      zinc-session, zinc-term, zinc-files, zinc-bg, zinc-panel
   --install-deps     Install build dependencies with pacman first
@@ -43,6 +44,7 @@ USAGE
 while (($#)); do
     case "$1" in
         --full) MODE="full" ;;
+        --install-only) MODE="install-only" ;;
         --quick) MODE="quick" ;;
         --install-deps) INSTALL_DEPS=1 ;;
         --skip-lfs) SKIP_LFS=1 ;;
@@ -165,13 +167,17 @@ if find "$ROOT/zinc-wallpapers/original" -type f -name '*.jpg' -size -1k 2>/dev/
     echo "warning: some wallpapers are still Git LFS pointer files" >&2
 fi
 
-echo "Building Zinc Desktop ($MODE mode); logs: $WORK/logs"
-if [[ "$MODE" == "full" ]]; then
+echo "Preparing Zinc Desktop ($MODE mode); logs: $WORK/logs"
+if [[ "$MODE" == "install-only" ]]; then
+    echo "Skipping build; staging existing release artifacts"
+    (cd "$ROOT" && just --no-deps install rootdir="$STAGE" prefix="$PREFIX") \
+        2>&1 | tee "$WORK/logs/install-stage.log"
+elif [[ "$MODE" == "full" ]]; then
     (cd "$ROOT" && just build) 2>&1 | tee "$WORK/logs/build.log"
     echo "Staging full install under $STAGE$PREFIX"
     (cd "$ROOT" && just install rootdir="$STAGE" prefix="$PREFIX") 2>&1 | tee "$WORK/logs/install-stage.log"
 
-    if command -v meson >/dev/null 2>&1 && command -v ninja >/dev/null 2>&1; then
+    if [[ "$MODE" == "full" ]] && command -v meson >/dev/null 2>&1 && command -v ninja >/dev/null 2>&1; then
         echo "Building and staging sound theme..."
         meson setup "$WORK/sound-build" "$ROOT/zinc-sound-theme" \
             --prefix="$PREFIX" --buildtype=release >/dev/null
@@ -182,10 +188,12 @@ if [[ "$MODE" == "full" ]]; then
     fi
 else
     for component in zinc-session zinc-term zinc-files zinc-bg zinc-panel; do
-        echo "Building $component"
-        (cd "$ROOT/$component" && just build-release) 2>&1 | tee "$WORK/logs/$component.log"
+        if [[ "$MODE" != "install-only" ]]; then
+            echo "Building $component"
+            (cd "$ROOT/$component" && just build-release) 2>&1 | tee "$WORK/logs/$component.log"
+        fi
         echo "Staging $component"
-        (cd "$ROOT/$component" && just rootdir="$STAGE" prefix="$PREFIX" install) \
+        (cd "$ROOT/$component" && just --no-deps rootdir="$STAGE" prefix="$PREFIX" install) \
             2>&1 | tee -a "$WORK/logs/$component.log"
     done
 fi
