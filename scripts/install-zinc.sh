@@ -154,6 +154,16 @@ cleanup() {
 }
 trap cleanup EXIT
 
+restart_display_manager() {
+    if systemctl cat cosmic-greeter.service >/dev/null 2>&1; then
+        sudo systemctl restart cosmic-greeter
+    elif systemctl cat display-manager.service >/dev/null 2>&1; then
+        sudo systemctl restart display-manager.service
+    else
+        sudo systemctl restart greetd
+    fi
+}
+
 if ((!SKIP_LFS)) && command -v git-lfs >/dev/null 2>&1; then
     echo "Fetching Git LFS assets..."
     for repo in zinc-wallpapers zinc-icons zinc-screenshot; do
@@ -242,7 +252,7 @@ done < "$BACKUP/manifest.txt"
 if [[ -f "$BACKUP/usr-local.tar.gz" ]]; then
     sudo tar -C / -xzf "$BACKUP/usr-local.tar.gz"
 fi
-sudo systemctl restart greetd 2>/dev/null || true
+restart_display_manager 2>/dev/null || true
 echo "Rolled back Zinc Desktop installation."
 ROLLBACK
 chmod 0755 "$BACKUP/rollback.sh"
@@ -260,10 +270,10 @@ cp -a "$WORK/logs" "$BACKUP/logs"
 echo "Log backup: $BACKUP/logs"
 
 if ((RESTART_GREETER)); then
-    sudo systemctl restart greetd
+    restart_display_manager
 else
     echo
     echo "Log out, switch to a TTY if needed, then run:"
-    echo "  sudo systemctl restart greetd"
+    echo "  sudo systemctl restart cosmic-greeter"
     echo "Select 'Zinc Desktop' at the login screen."
 fi

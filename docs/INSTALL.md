@@ -30,7 +30,7 @@ Type `INSTALL` at the prompt. The installer:
 Then switch sessions:
 
 ```sh
-sudo systemctl restart greetd
+sudo systemctl restart cosmic-greeter
 ```
 
 Select **Zinc Desktop** on the login screen.
@@ -68,3 +68,23 @@ COSMIC session at the greeter remains the fallback.
 User-facing branding and UI strings are Zinc. Several internal binary, D-Bus and
 config identifiers still use upstream-compatible names pending the staged
 namespace migration described in `docs/REBRANDING.md`.
+
+## If login returns to the greeter
+
+A failed login can leave an old compositor holding DRM master, causing the next
+`cosmic-comp` to start in unprivileged mode. Reboot to guarantee a clean DRM
+state:
+
+```sh
+sudo systemctl reboot
+```
+
+At the login screen select **Zinc Desktop**. Do not restart only `greetd.service`
+on this system; the active display manager is `cosmic-greeter.service`.
+
+If it still fails after reboot, collect:
+
+```sh
+journalctl -b -u cosmic-greeter --no-pager | tail -100
+journalctl -b --no-pager | grep -Ei 'cosmic-comp|drm master|failed to submit|failed to render' | tail -100
+```
