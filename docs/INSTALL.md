@@ -88,3 +88,27 @@ If it still fails after reboot, collect:
 journalctl -b -u cosmic-greeter --no-pager | tail -100
 journalctl -b --no-pager | grep -Ei 'cosmic-comp|drm master|failed to submit|failed to render' | tail -100
 ```
+
+## Hybrid-GPU compositor fallback
+
+The locally built `cosmic-comp` from the current fork revision cannot acquire
+DRM master on this hybrid Intel/NVIDIA system, including for the greeter. Use
+the system compositor while keeping the rest of Zinc local:
+
+```sh
+cd /home/zincg/zinc-desktop
+./scripts/install-zinc.sh --install-only --system-compositor
+```
+
+This installs a symlink at `/usr/local/bin/cosmic-comp` pointing to
+`/usr/bin/cosmic-comp`. Reboot afterward:
+
+```sh
+sudo systemctl reboot
+```
+
+Verify the clean boot with:
+
+```sh
+journalctl -b --no-pager | grep 'Unable to become drm master' || true
+```

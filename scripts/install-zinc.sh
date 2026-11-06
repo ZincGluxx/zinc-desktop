@@ -11,6 +11,7 @@ ASSUME_YES=0
 RESTART_GREETER=0
 SKIP_LFS=0
 CHECK_ONLY=0
+SYSTEM_COMPOSITOR=0
 
 usage() {
     cat <<USAGE
@@ -23,12 +24,13 @@ Do NOT run it from inside the graphical session you are replacing.
 Options:
   --full             Build all components (default)
   --install-only     Skip building; install the existing release artifacts
+  --system-compositor  Use /usr/bin/cosmic-comp for the greeter and session
   --quick            Build only the components changed in the first pass:
                      zinc-session, zinc-term, zinc-files, zinc-bg, zinc-panel
   --install-deps     Install build dependencies with pacman first
   --skip-lfs         Do not attempt to fetch Git LFS wallpaper/icon assets
   --check            Check tools, source state and assets; do not build or install
-  --restart-greeter  Restart greetd after installation (kills the graphical session)
+  --restart-greeter  Restart cosmic-greeter after installation (kills the graphical session)
   --yes              Skip the final confirmation prompt
   -h, --help         Show this help
 
@@ -45,6 +47,7 @@ while (($#)); do
     case "$1" in
         --full) MODE="full" ;;
         --install-only) MODE="install-only" ;;
+        --system-compositor) SYSTEM_COMPOSITOR=1 ;;
         --quick) MODE="quick" ;;
         --install-deps) INSTALL_DEPS=1 ;;
         --skip-lfs) SKIP_LFS=1 ;;
@@ -214,6 +217,16 @@ if [[ -f "$SESSION_DESKTOP" ]]; then
     sed -i "s|^Exec=zinc-session$|Exec=$PREFIX/bin/zinc-session|; s|^TryExec=zinc-session$|TryExec=$PREFIX/bin/zinc-session|" "$SESSION_DESKTOP"
 else
     echo "warning: session desktop file was not staged" >&2
+fi
+
+if ((SYSTEM_COMPOSITOR)); then
+    if [[ ! -x /usr/bin/cosmic-comp ]]; then
+        echo "error: --system-compositor requested but /usr/bin/cosmic-comp is missing" >&2
+        exit 1
+    fi
+    rm -f "$STAGE$PREFIX/bin/cosmic-comp"
+    ln -s /usr/bin/cosmic-comp "$STAGE$PREFIX/bin/cosmic-comp"
+    echo "Using system compositor: /usr/bin/cosmic-comp"
 fi
 
 if [[ ! -x "$STAGE$PREFIX/bin/cosmic-session" ]]; then
