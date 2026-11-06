@@ -12,6 +12,7 @@ Zinc Desktop is not affiliated with or endorsed by any upstream vendor. See
 - [Repository map](docs/REPOSITORIES.md)
 - [Rebranding status and migration plan](docs/REBRANDING.md)
 - [Performance work log](docs/PERFORMANCE.md)
+- [Build and install instructions](docs/INSTALL.md)
 
 ## Development branch
 

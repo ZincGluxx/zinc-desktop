@@ -66,14 +66,15 @@ if [[ ${EUID} -eq 0 ]]; then
     exit 1
 fi
 
-export PATH="$HOME/.cargo/bin:$PATH"
+LOCAL_DEPS="${ZINC_LOCAL_DEPS:-$HOME/.cache/zinc-deps}"
+export PATH="$LOCAL_DEPS/usr/bin:$HOME/.cargo/bin:$PATH"
 if ! command -v sudo >/dev/null 2>&1; then
     echo "sudo is required" >&2
     exit 1
 fi
 
 missing=()
-for cmd in git cargo rustc just sudo rsync make gcc pkg-config; do
+for cmd in git cargo rustc just sudo rsync make gcc pkg-config nasm; do
     command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
 done
 optional_missing=()
@@ -170,12 +171,12 @@ fi
 echo "Preparing Zinc Desktop ($MODE mode); logs: $WORK/logs"
 if [[ "$MODE" == "install-only" ]]; then
     echo "Skipping build; staging existing release artifacts"
-    (cd "$ROOT" && just --no-deps install rootdir="$STAGE" prefix="$PREFIX") \
+    (cd "$ROOT" && just --no-deps install "$STAGE" "$PREFIX") \
         2>&1 | tee "$WORK/logs/install-stage.log"
 elif [[ "$MODE" == "full" ]]; then
     (cd "$ROOT" && just build) 2>&1 | tee "$WORK/logs/build.log"
     echo "Staging full install under $STAGE$PREFIX"
-    (cd "$ROOT" && just install rootdir="$STAGE" prefix="$PREFIX") 2>&1 | tee "$WORK/logs/install-stage.log"
+    (cd "$ROOT" && just install "$STAGE" "$PREFIX") 2>&1 | tee "$WORK/logs/install-stage.log"
 
     if [[ "$MODE" == "full" ]] && command -v meson >/dev/null 2>&1 && command -v ninja >/dev/null 2>&1; then
         echo "Building and staging sound theme..."
